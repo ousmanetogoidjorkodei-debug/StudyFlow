@@ -1,0 +1,69 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded squircle container with rich dark finish -->
+  <rect width="200" height="200" rx="44" fill="#09090B"/>
+  
+  <!-- Outer layered pages (behind) -->
+  <path d="M42 70V136L34 130V76L42 70Z" fill="#FFFFFF"/>
+  <path d="M158 70V136L166 130V76L158 70Z" fill="#FFFFFF"/>
+  
+  <!-- Book Outer Frame / Cover (Bottom V-shape spine) -->
+  <path 
+    d="M48 66L100 78L152 66V138L100 166L48 138V66Z" 
+    stroke="#FFFFFF" 
+    stroke-width="7" 
+    stroke-linejoin="round" 
+    stroke-linecap="round"
+  />
+
+  <!-- Main Left Page leaf -->
+  <path 
+    d="M98 78C76 66 58 60 52 64V134C58 130 76 136 98 148V78Z" 
+    stroke="#FFFFFF" 
+    stroke-width="7" 
+    stroke-linejoin="round" 
+    stroke-linecap="round"
+    fill="#09090B"
+  />
+
+  <!-- Main Right Page leaf -->
+  <path 
+    d="M102 78C124 66 142 60 148 64V134C142 130 124 136 102 148V78Z" 
+    stroke="#FFFFFF" 
+    stroke-width="7" 
+    stroke-linejoin="round" 
+    stroke-linecap="round"
+    fill="#09090B"
+  />
+
+  <!-- Inner Page layered curve lines -->
+  <path d="M60 82C74 74 86 74 96 82" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M140 82C126 74 114 74 104 82" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+  
+  <path d="M58 126C72 120 86 122 96 134" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M142 126C128 120 114 122 104 134" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- Center spine seam -->
+  <path d="M100 76V152" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Dynamic Arrow Outline Cutout (Black buffer to create contrast over book) -->
+  <path 
+    d="M26 142C44 120 74 104 98 114C122 124 142 106 160 84" 
+    stroke="#09090B" 
+    stroke-width="18" 
+    stroke-linecap="round"
+  />
+
+  <!-- Dynamic Arrow Swoosh Body (Pure White) -->
+  <path 
+    d="M28 140C44 122 74 108 98 116C122 124 142 108 162 82L156 74C138 100 118 112 98 104C74 94 48 110 32 134L28 140Z" 
+    fill="#FFFFFF"
+  />
+
+  <!-- Sharp Triangular Arrow Head -->
+  <polygon 
+    points="152,60 184,56 172,88 163,75 152,60" 
+    fill="#FFFFFF"
+    stroke="#09090B"
+    stroke-width="2"
+  />
+</svg>

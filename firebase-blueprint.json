@@ -1,0 +1,94 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Profil de l'étudiant avec ses objectifs et sa série de jours d'étude",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Identifiant unique Firebase Auth" },
+        "name": { "type": "string", "description": "Nom complet de l'utilisateur" },
+        "email": { "type": "string", "description": "Adresse e-mail" },
+        "role": { "type": "string", "description": "Niveau d'étude ou rôle" },
+        "major": { "type": "string", "description": "Filière ou domaine d'études" },
+        "dailyGoalHours": { "type": "number", "description": "Objectif journalier en heures" },
+        "weeklyGoalHours": { "type": "number", "description": "Objectif hebdomadaire en heures" },
+        "plan": { "type": "string", "description": "Formule d'abonnement (free ou pro)" },
+        "tier": { "type": "string", "description": "Statut de licence vérifié (free ou pro) protégé contre toute écriture client" },
+        "subscriptionStatus": { "type": "string", "description": "Statut de l'abonnement géré par le backend de facturation (Paddle)" },
+        "billingProvider": { "type": "string", "description": "Fournisseur de facturation (paddle ou stripe)" },
+        "billingCustomerId": { "type": "string", "description": "Identifiant client Paddle géré par le backend" },
+        "billingSubscriptionId": { "type": "string", "description": "Identifiant d'abonnement Paddle géré par le backend" },
+        "billingPriceId": { "type": "string", "description": "Identifiant du tarif souscrit géré par le backend" },
+        "billingCurrentPeriodEnd": { "type": "string", "description": "Date de fin de période de facturation" },
+        "stripeCustomerId": { "type": "string", "description": "Identifiant client Stripe historique" },
+        "stripeSubscriptionId": { "type": "string", "description": "Identifiant de souscription Stripe historique" },
+        "streak": { "type": "number", "description": "Nombre de jours consécutifs d'étude" }
+      },
+      "required": ["userId", "name", "email"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "Matière ou cours suivi par l'étudiant",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "code": { "type": "string" },
+        "color": { "type": "string" },
+        "examDate": { "type": "string" },
+        "targetWeeklyHours": { "type": "number" },
+        "currentWeeklyMinutes": { "type": "number" },
+        "chapters": { "type": "array" }
+      },
+      "required": ["id", "name", "color"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Projet ou devoir complexe avec sous-tâches",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "dueDate": { "type": "string" },
+        "priority": { "type": "string" },
+        "status": { "type": "string" },
+        "subtasks": { "type": "array" }
+      },
+      "required": ["id", "title", "dueDate", "status"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "Tâche quotidienne d'étude ou d'exercice",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "priority": { "type": "string" },
+        "category": { "type": "string" },
+        "dueDate": { "type": "string" },
+        "estimatedMinutes": { "type": "number" }
+      },
+      "required": ["id", "title", "completed", "dueDate"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Document racine du profil utilisateur"
+    },
+    "/users/{userId}/subjects/{subjectId}": {
+      "schema": "Subject",
+      "description": "Matières associées à l'utilisateur"
+    },
+    "/users/{userId}/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Projets de l'utilisateur"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Tâches personnelles de l'utilisateur"
+    }
+  }
+}

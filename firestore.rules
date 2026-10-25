@@ -1,0 +1,102 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Règle de sécurité par défaut : Tout est refusé par défaut
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Fonctions d'aide à la sécurité
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Collection des profils utilisateurs
+    match /users/{userId} {
+      // Lecture : Un utilisateur authentifié ne peut lire que son propre profil
+      allow get: if isOwner(userId);
+      // Liste interdite sur la racine des utilisateurs pour empêcher l'énumération de comptes
+      allow list: if false;
+
+      // Création : L'utilisateur authentifié peut créer son propre profil initial.
+      // Le tier initial DOIT être obligatoirement 'free' (ou omis), et AUCUN champ de paiement / facturation n'est autorisé.
+      allow create: if isOwner(userId)
+        && (!('tier' in request.resource.data) || request.resource.data.tier == 'free')
+        && !request.resource.data.keys().hasAny([
+          'subscriptionStatus',
+          'billingProvider',
+          'billingCustomerId',
+          'billingSubscriptionId',
+          'billingPriceId',
+          'billingCurrentPeriodEnd',
+          'stripeCustomerId',
+          'stripeSubscriptionId',
+          'stripePriceId',
+          'stripeCurrentPeriodEnd'
+        ]);
+
+      // Mise à jour : L'utilisateur peut modifier ses informations personnelles (nom, avatar, objectifs, etc.)
+      // MAIS les champs tier, subscriptionStatus, billingProvider, billingCustomerId, billingSubscriptionId
+      // ne peuvent JAMAIS être modifiés ou ajoutés par le client.
+      // Ils sont réservés exclusivement au backend sécurisé (Webhooks Paddle / Admin SDK).
+      allow update: if isOwner(userId)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+          'tier',
+          'subscriptionStatus',
+          'billingProvider',
+          'billingCustomerId',
+          'billingSubscriptionId',
+          'billingPriceId',
+          'billingCurrentPeriodEnd',
+          'stripeCustomerId',
+          'stripeSubscriptionId',
+          'stripePriceId',
+          'stripeCurrentPeriodEnd'
+        ]);
+
+      // Suppression de son profil par l'utilisateur propriétaire
+      allow delete: if isOwner(userId);
+
+      // Sous-collections de l'utilisateur (matières, projets, tâches, objectifs, sessions, notes, rappels)
+      // Isolation absolue : aucune fuite de données inter-utilisateurs
+      match /subjects/{subjectId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      match /projects/{projectId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      match /tasks/{taskId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      match /goals/{goalId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      match /sessions/{sessionId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      match /notes/{noteId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      match /reminders/{reminderId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Sécurité pour toute autre sous-ressource personnalisée de l'utilisateur
+      match /{subcollection=**} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+  }
+}

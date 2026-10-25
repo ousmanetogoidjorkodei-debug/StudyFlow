@@ -1,0 +1,8 @@
+{
+  "name": "Studyflow",
+  "description": "Planificateur d\u0027étude et de projet intelligent tout-en-un pour étudiants et professionnels avec IA, Pomodoro et calendrier",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
